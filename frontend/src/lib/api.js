@@ -1,4 +1,11 @@
-const API = import.meta.env.VITE_API || "http://localhost:8000";
+const configuredApi = import.meta.env.VITE_API;
+const productionApi = "https://sistema-inventario-backend-9im6.onrender.com";
+const API =
+  configuredApi && !configuredApi.includes("api.example.com")
+    ? configuredApi.replace(/\/$/, "")
+    : import.meta.env.DEV
+      ? "http://localhost:8000"
+      : productionApi;
 
 function getToken() {
   return localStorage.getItem("mimes_token") || "";
