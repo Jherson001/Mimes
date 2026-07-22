@@ -1,11 +1,14 @@
-const configuredApi = import.meta.env.VITE_API;
-const productionApi = "https://sistema-inventario-backend-9im6.onrender.com";
-const API =
-  configuredApi && !configuredApi.includes("api.example.com")
-    ? configuredApi.replace(/\/$/, "")
-    : import.meta.env.DEV
-      ? "http://localhost:8000"
-      : productionApi;
+const configuredApi = (import.meta.env.VITE_API || "").replace(/\/$/, "");
+const productionApi = "https://mimes.onrender.com";
+const isBadApi =
+  !configuredApi ||
+  configuredApi.includes("api.example.com") ||
+  configuredApi.includes("sistema-inventario");
+const API = isBadApi
+  ? import.meta.env.DEV
+    ? "http://localhost:8000"
+    : productionApi
+  : configuredApi;
 
 function getToken() {
   return localStorage.getItem("mimes_token") || "";
@@ -13,7 +16,9 @@ function getToken() {
 
 async function handle(res) {
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data?.message || `HTTP ${res.status}`);
+  if (!res.ok) {
+    throw new Error(data?.message || data?.error || `HTTP ${res.status}`);
+  }
   return data;
 }
 
