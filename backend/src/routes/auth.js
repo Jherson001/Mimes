@@ -41,7 +41,10 @@ router.post("/register", async (req, res) => {
       return res.status(409).json({ message: "Ese email ya está registrado" });
     }
     console.error(err);
-    res.status(500).json({ message: "No se pudo registrar" });
+    res.status(500).json({
+      message: "No se pudo registrar",
+      code: err.code || "REGISTER_ERROR",
+    });
   }
 });
 
@@ -72,7 +75,10 @@ router.post("/login", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "No se pudo iniciar sesión" });
+    res.status(500).json({
+      message: "No se pudo iniciar sesión",
+      code: err.code || "LOGIN_ERROR",
+    });
   }
 });
 
