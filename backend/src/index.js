@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const BUILD = "2026-07-22-envfix
+const BUILD = "2026-07-26-deploy";
 
 function envSnapshot() {
   const hasUrl = Boolean(process.env.DATABASE_URL || process.env.MYSQL_URL);
