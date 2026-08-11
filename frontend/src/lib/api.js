@@ -17,6 +17,11 @@ function getToken() {
 async function handle(res) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
+    if (res.status === 401) {
+      localStorage.removeItem("mimes_token");
+      localStorage.removeItem("mimes_user");
+      throw new Error("Sesión expirada. Volvé a iniciar sesión.");
+    }
     throw new Error(data?.message || data?.error || `HTTP ${res.status}`);
   }
   return data;

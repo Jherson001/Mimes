@@ -76,10 +76,15 @@ export default function App() {
       setRows(list);
       setBudgets(b);
     } catch (e) {
-      setError(e.message || "No se pudo cargar el resumen");
+      const msg = e.message || "No se pudo cargar el resumen";
+      setError(msg);
       setSummary(null);
       setRows([]);
       setBudgets([]);
+      if (msg.includes("Sesión expirada") || !localStorage.getItem("mimes_token")) {
+        setToken("");
+        setUser(null);
+      }
     } finally {
       setLoading(false);
     }
@@ -192,7 +197,7 @@ export default function App() {
 
         {error && (
           <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-            {error}. ¿MySQL está corriendo y corriste <code>backend/sql/schema.sql</code>?
+            {error}
           </div>
         )}
 
