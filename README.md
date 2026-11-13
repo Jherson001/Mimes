@@ -21,3 +21,46 @@ Aplicación web full stack para registrar ingresos y gastos, organizarlos por ca
 | Tests & CI/CD | `node --test`, GitHub Actions (`test.yml` y `render-deploy.yml`) |
 
 ## Estructura
+
+```text
+backend/
+  src/
+    routes/        auth.js, transactions.js, budgets.js, ai.js
+    lib/           categorize.js, parseVoice.js y sus tests unitarios
+    middleware/    autenticación y validaciones
+    services/      lógica de negocio
+    db/            conexión a MySQL
+  sql/             scripts de base de datos
+frontend/          aplicación React + Vite
+.github/workflows/ CI de tests y despliegue automático a Render
+```
+
+## Cómo correrlo en local
+
+**1. Backend**
+
+```bash
+cd backend
+cp .env.example .env
+# Configura tus credenciales de MySQL y JWT en .env
+npm install
+npm run dev
+```
+
+**2. Frontend**
+
+```bash
+cd frontend
+cp .env.example .env
+npm install
+npm run dev
+```
+
+## Tests
+
+El backend incluye pruebas unitarias con el runner nativo de Node (`node --test`) sobre las reglas de categorización y el parser de voz/texto:
+
+```bash
+cd backend
+npm test
+```
